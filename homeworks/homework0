@@ -1,0 +1,14 @@
+public static int mcd(int x, int y, int z)
+	{
+		int j=0;
+		int d= x*y*z;
+		for (int i=2;i<=d; i++)
+		{
+			if ((i%x==0)&&(i%y==0)&&(i%z==0))
+			{
+				j=i;
+			 break;
+			}
+		}
+			return j;
+	}
