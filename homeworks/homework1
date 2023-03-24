@@ -1,4 +1,6 @@
-public static int mcd(int x, int y, int z)
+// this algorithm computes the Minimal Common Denominator
+// Note: this algorithm is efficient for integers not long numbers
+	public static int mcd1(int x, int y, int z)
 	{
 		int j=0;
 		int d= x*y*z;
@@ -12,3 +14,21 @@ public static int mcd(int x, int y, int z)
 		}
 			return j;
 	}
+// a more efficient algorithm for long numbers
+	public static long mcd2 (long x, long y, long z) {
+			long p= Math.max(x,y);
+			long o= Math.max(z, p);
+			long mcd=o;
+			while (o<x*y*z)
+			{
+				if ((mcd%x==0)&&(mcd%y==0)&&(mcd%z==0))
+				{
+					break;
+				}
+				else
+				{
+					mcd+=o;
+				}
+			}
+			return mcd;
+			}
