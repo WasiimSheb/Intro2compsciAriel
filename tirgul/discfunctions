@@ -1,0 +1,25 @@
+/**Scanner sc= new Scanner(System.in);
+		System.out.println("Quadratic Equation Calculator");
+		System.out.println("a*x^2+b*x+c");
+		System.out.println("enter a");
+		double a = sc.nextDouble();
+		System.out.println("enter b");
+		double b = sc.nextDouble();
+		System.out.println("enter c");
+		double c = sc.nextDouble();
+		double disc = Math.pow(b, 2) - 4*a*c;
+			if (disc<0) {
+			System.out.println("there are no real roots for the equation: ");
+		}
+		else {
+			double x1 = ((-b + Math.sqrt(disc)) / (2 * a) );
+			double x2 = ((-b - Math.sqrt(disc)) / (2 * a) );
+
+			if(disc==0){
+				System.out.println("the equation has one real root: "+x1);
+			}
+			else 
+			{
+				System.out.println("the equation has two real roots and they are: " + x1 + "," +x2);
+			}
+		}
