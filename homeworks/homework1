@@ -1,5 +1,5 @@
 // this algorithm computes the Minimal Common Denominator
-// Note: this algorithm is efficient for integers not long numbers
+// Note: this algorithm is efficient for integers not for long numbers
 	public static int mcd1(int x, int y, int z)
 	{
 		int j=0;
