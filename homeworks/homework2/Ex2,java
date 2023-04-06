@@ -213,4 +213,21 @@ public class Ex2 {
 		}
 	return ans; // return the ans array
 	}
+	/**
+	 * This is a second function how to compute the derivative polynom:.
+	 * @param po
+	 * @return
+	 */
+	 public static double [] Derivative (double [] po)
+		{
+			int c = po.length-1;
+			double [] ans = new double[c];
+			int j = 0;
+			for (int i=1; i<po.length; i++)
+			{
+				ans[j] = po[i] * i;
+				j++;
+			}
+			return ans;
+		}
 }
