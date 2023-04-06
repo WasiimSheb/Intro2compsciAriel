@@ -187,11 +187,17 @@ public class Ex2 {
 	 * @return
 	 */
 	public static double[] mul(double[] p1, double[] p2) {
-		double [] ans = ZERO;//
-		// add you code here
-
-		////////////////////
+		int c = p1.length + p2.length - 1;
+		double [] ans = new double[c]; // creating a new array with the length of the mul of two polynoms
+		for (int i = 0; i < p1.length; i++) // running over the first polynom
+		{
+			for (int j = 0; j < p2.length; j++) // running over the second polynom
+			{
+				ans[i+j]+=p1[i]*p2[j]; // multiplying each index of the polynoms with the other and **adding them**
+			}
+		}
 		return ans;
+	}
 	}
 	/**
 	 * This function computes the derivative polynom:.
