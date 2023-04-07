@@ -1,0 +1,71 @@
+package exe.ex2;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class Ex2Test2 {
+
+	@Test
+	void testF() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testRoot_rec() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testPolynomFromPoints() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testEqualsDoubleArrayDoubleArray() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testPoly() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testSameValue() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testLength() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testArea() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetPolynomFromString() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testAdd() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testMul() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testDerivative() {
+		double [] p2 = {3,4,3};
+		double [] p1 = {4,6};
+		double [] p3 = derivative(p2);
+		}
+	}
+
