@@ -75,9 +75,14 @@ public class Ex2 {
 	 */
 	public static boolean equals(double[] p1, double[] p2) {
 		boolean ans = true;
-		// add you code here
-
-		////////////////////
+		int n = Math.max(p1.length, p2.length);
+		for (int i = 0; i < n+1; i++)
+		{
+			if (f(p1,n) - f(p2,n) >= EPS)
+			{
+				ans = false;
+			}
+		}
 		return ans;
 	}
 
@@ -174,10 +179,49 @@ public class Ex2 {
 	 * @return
 	 */
 	public static double[] add(double[] p1, double[] p2) {
-		double [] ans = ZERO;//
-		// add you code here	
-
-		////////////////////
+	int s = Math.max(p1.length, p2.length);
+		double [] ans = new double [s];
+		if (p1.length == p2.length)
+		{
+			for (int i = 0; i < p1.length; i++)
+			{
+				for (int j = 0; j < p2.length; j++)
+				{
+					if (i==j)
+					{
+						ans[i]+=p1[i]+p2[j];
+					}
+				}
+			}
+		}
+		if (p1.length > p2.length)
+		{
+			ans = p1;
+			for ( int i = 0; i < ans.length; i++)
+			{
+				for ( int j = 0; j < p2.length; j++)
+				{
+					if (i==j)
+					{
+						ans[i]+=p2[j];
+					}
+				}
+			}
+		}
+		else
+		{
+				ans = p2;
+				for ( int i = 0; i < ans.length; i++)
+				{
+					for ( int j = 0; j < p1.length; j++)
+					{
+						if (i==j)
+						{
+							ans[i]+=p2[j];
+						}
+					}
+				}
+		}
 		return ans;
 	}
 	/**
