@@ -179,7 +179,7 @@ public class Ex2 {
 	 * @return
 	 */
 	public static double[] add(double[] p1, double[] p2) {
-	int s = Math.max(p1.length, p2.length);
+		int s = Math.max(p1.length, p2.length);
 		double [] ans = new double [s];
 		if (p1.length == p2.length)
 		{
@@ -210,19 +210,19 @@ public class Ex2 {
 		}
 		else
 		{
-				ans = p2;
-				for ( int i = 0; i < ans.length; i++)
+			ans = p2;
+			for ( int i = 0; i < ans.length; i++)
 				{
-					for ( int j = 0; j < p1.length; j++)
+				for ( int j = 0; j < p1.length; j++)
+				{
+					if (i==j)
 					{
-						if (i==j)
-						{
-							ans[i]+=p2[j];
-						}
+						ans[i]+=p2[j];
 					}
 				}
+			}
 		}
-		return ans;
+	return ans;
 	}
 	/**
 	 * This function computes the polynom which is the multiplication of two polynoms (p1,p2)
