@@ -96,9 +96,49 @@ public class Ex2 {
 		String ans = "";
 		if(poly.length==0) {ans="0";}
 		else {
-		// add you code here
-
-		////////////////////
+			for (int i = poly.length - 1; i >= 0; i--)
+			{
+				if ((poly[i] != 0))
+				{
+					if (i == 0)
+					{
+						ans += poly[i];
+					}
+					if (i == 1)
+					{
+						if (poly[i-1] > 0) {
+							ans+=poly[i]+"x"+" +";
+						}
+						else
+						{
+							ans+=poly[i]+"x"+"";
+						}
+					}
+					else
+					{
+						if (i != 0)
+						{
+							if (poly[i-1] > 0) {
+								ans+=poly[i]+"x"+"^"+i+" +";	
+							}
+							else
+							{
+								ans+=poly[i]+"x"+"^"+i+" ";	
+							}
+						}
+					}
+				}
+				else
+				{
+					if ((poly[i] == 0))
+					{
+						if (i>1)
+						{
+							ans+="+";
+						}
+					}
+				}
+			}
 		}
 		return ans;
 	}
@@ -114,9 +154,15 @@ public class Ex2 {
 	 */
 	public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps) {
 		double ans = x1;
-		// add you code here
-
-		//////////////////
+		double x3 = root_rec(p1, x1, x2, eps);
+		double x4 = root_rec(p2, x1, x2, eps);
+		if ((x3 == x4) && (x3 - x4 < eps))
+		{
+			if(f(p1, x3) - f(p2, x3) < eps)
+			{
+				ans = x3;
+			}
+		}
 		return ans;
 	}
 	/**
