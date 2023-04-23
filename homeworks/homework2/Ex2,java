@@ -154,13 +154,9 @@ public class Ex2 {
 	 */
 	public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps) {
 		double ans = x1;
-		double x3 = root_rec(p1, x1, x2, eps);
-		double x4 = root_rec(p2, x1, x2, eps);
-		if ((x3 == x4) && (x3 - x4 < eps))
-		{
-			if(f(p1, x3) - f(p2, x3) < eps)
-			{
-				ans = x3;
+		for (double i = x1; i <= x2; i++) {
+			if (f(p1, i) - f(p2, i) <= eps) {
+				ans = i;
 			}
 		}
 		return ans;
