@@ -174,13 +174,22 @@ public class Ex2 {
 	 * @return the length approximation of the function between f(x1) and f(x2).
 	 */
 	public static double length(double[] p, double x1, double x2, int numberOfSegments) {
-		double ans = x1;
-		// add you code here
-
-		////////////////////
-		return ans;
+		double ans = 0;
+		double len =(x1 - x2) / numberOfSegments;
+		double [] xx = new double [numberOfSegments + 1];
+		double [] yy = new double [numberOfSegments + 1];
+		for ( int i = 0; i <= numberOfSegments; i++)
+			{
+				xx[i] = x1 + i * len;
+				yy[i] = f(p, xx[i]);
+			}
+		for ( int j = 0; j <= numberOfSegments; j++)
+		{
+			double seglen = Math.sqrt(Math.pow(xx[j+1] - xx[j], 2) + Math.pow(yy[j+1] - yy[j], 2));
+			ans += seglen;
+		}
+			return ans;
 	}
-	
 	/**
 	 * Given two polynoms (p1,p2), a range [x1,x2] and an integer representing the number of Trapezoids between the functions (number of samples in on each polynom). 
 	 * This function computes an approximation of the area between the polynoms within the x-range.
@@ -193,10 +202,15 @@ public class Ex2 {
 	 * @return the approximated area between the two polynoms within the [x1,x2] range.
 	 */
 	public static double area(double[] p1,double[]p2, double x1, double x2, int numberOfTrapezoid) {
-		double ans = 0;
-		// add you code here
-
-		////////////////////
+			double ans = 0;
+		double width = Math.abs( (x1 - x2) / numberOfTrapezoid);
+		for (double i = x1; i < x2; i+=width)
+		{
+			double len =(Math.abs(f(p1, x1) - f(p2, x1)));
+			x1 += width;
+			double s = width * len;
+			ans += s;
+		}
 		return ans;
 	}
 	/**
@@ -268,49 +282,22 @@ public class Ex2 {
 	 */
 	public static double[] add(double[] p1, double[] p2) {
 		int s = Math.max(p1.length, p2.length);
-		double [] ans = new double [s];
-		if (p1.length == p2.length)
+		double[] ans = new double[s];
+		for ( int i = 0; i < s; i++)
 		{
-			for (int i = 0; i < p1.length; i++)
+			double coeff = 0;
+			if ( i < p1.length)
 			{
-				for (int j = 0; j < p2.length; j++)
-				{
-					if (i==j)
-					{
-						ans[i]+=p1[i]+p2[j];
-					}
-				}
+				coeff = p1[i];
 			}
-		}
-		if (p1.length > p2.length)
-		{
-			ans = p1;
-			for ( int i = 0; i < ans.length; i++)
+			double coeff1 = 0;
+			if ( i < p2.length)
 			{
-				for ( int j = 0; j < p2.length; j++)
-				{
-					if (i==j)
-					{
-						ans[i]+=p2[j];
-					}
-				}
+				coeff1 = p2[i];
 			}
+			ans [i] = coeff + coeff1;
 		}
-		else
-		{
-			ans = p2;
-			for ( int i = 0; i < ans.length; i++)
-				{
-				for ( int j = 0; j < p1.length; j++)
-				{
-					if (i==j)
-					{
-						ans[i]+=p2[j];
-					}
-				}
-			}
-		}
-	return ans;
+		return ans;
 	}
 	/**
 	 * This function computes the polynom which is the multiplication of two polynoms (p1,p2)
