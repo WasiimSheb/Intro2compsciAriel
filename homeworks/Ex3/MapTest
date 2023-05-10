@@ -1,0 +1,99 @@
+package exe.ex3;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class MapTest {
+
+	@Test
+	void testMapIntIntInt() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testMapInt() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testMapIntArrayArray() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testInitIntIntInt() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testInitIntArrayArray() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetMap() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetWidth() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetHeight() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetPixelIntInt() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetPixelPixel2D() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testSetPixelIntIntInt() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testSetPixelPixel2DInt() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testFill() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testShortestPath() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testIsInside() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testIsCyclic() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testSetCyclic() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testAllDistance() {
+		fail("Not yet implemented");
+	}
+
+}
