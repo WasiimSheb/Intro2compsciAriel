@@ -1,0 +1,49 @@
+package exe.ex3;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class Index2DTest {
+
+	@Test
+	void testIndex2D() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testIndex2DIntInt() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testIndex2DPixel2D() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetX() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetY() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testDistance2D() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testToString() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testEqualsObject() {
+		fail("Not yet implemented");
+	}
+
+}
