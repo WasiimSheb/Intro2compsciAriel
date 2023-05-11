@@ -31,14 +31,23 @@ public class Map implements Map2D {
 	}
 	@Override
 	public void init(int w, int h, int v) {
-		double [][] ans = new double [w][h];
-
+		int [][] ans = new int [h][w];
+		for (int i = 0; i < w; i++){
+			for ( int j = 0; j < h; j++){
+				ans [i][j] = v;
+			}
+		}
 	}
 	@Override
 	public void init(int[][] arr) {
-		/////// add your code below ///////
-
-		///////////////////////////////////
+		int [][] ans = new int [arr.length][arr[0].length];
+		for (int i = 0; i < arr.length; i++)
+		{
+			for (int j = 0; j < arr[0].length; j++)
+			{
+				ans[i][j] = arr[i][j];
+			}
+		}
 	}
 	@Override
 	public int[][] getMap() {
