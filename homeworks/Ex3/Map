@@ -40,44 +40,56 @@ public class Map implements Map2D {
 	}
 	@Override
 	public void init(int[][] arr) {
-		int [][] ans = new int [arr.length][arr[0].length];
-		for (int i = 0; i < arr.length; i++)
-		{
-			for (int j = 0; j < arr[0].length; j++)
-			{
-				ans[i][j] = arr[i][j];
+		if (arr == null){
+			throw new RuntimeException();
+		}
+		else{
+			int [][] ans = new int [arr.length][arr[0].length];
+			for (int i = 0; i < arr.length; i++){
+				for (int j = 0; j < arr[0].length; j++){
+					ans[i][j] = arr[i][j];
+				}
 			}
 		}
 	}
 	@Override
-	public int[][] getMap() {
-		int[][] ans = null;
-		/////// add your code below ///////
-
-		///////////////////////////////////
+	public int [][] getMap() {
+		int x = _map.length;
+		int y = _map[0].length;
+		int [][] ans = new int [x][y];
+		for (int i = 0; i < ans[0].length; i++) {
+			for (int j = 0; j < ans.length; j++) {
+				ans [i][j] = _map[i][j];
+			}
+		}
 		return ans;
 	}
 	@Override
 	/////// add your code below ///////
-	public int getWidth() {return 0;}
+	public int getWidth() {return _map.length;}
 	@Override
 	/////// add your code below ///////
-	public int getHeight() {return 0;}
+	public int getHeight() {return _map[0].length;}
 	@Override
 	/////// add your code below ///////
-	public int getPixel(int x, int y) { return 0;}
-	@Override
-	/////// add your code below ///////
-	public int getPixel(Pixel2D p) {
-		return this.getPixel(p.getX(),p.getY());
+	public int getPixel(int x, int y) { 
+		int ans = getMap()[x][y];
+		return (int) ans;
 	}
 	@Override
 	/////// add your code below ///////
-	public void setPixel(int x, int y, int v) {;}
+	public int getPixel(Pixel2D p) {
+		return (int) this.getPixel(p.getX(),p.getY());
+	}
+	@Override
+	/////// add your code below ///////
+	public void setPixel(int x, int y, int v) {
+		_map[x][y] = v;
+	}
 	@Override
 	/////// add your code below ///////
 	public void setPixel(Pixel2D p, int v) {
-		;
+		_map[p.getX()][p.getY()] = v;
 	}
 	@Override
 	/** 
@@ -107,7 +119,17 @@ public class Map implements Map2D {
 	@Override
 	/////// add your code below ///////
 	public boolean isInside(Pixel2D p) {
-		return false;
+		int z = _map.length;
+		int c = _map[0].length;
+		int x = p.getX();
+		int y = p.getY();
+		boolean ans = false;
+		if (Math.abs(_map[0][y] - x) + Math.abs(((_map[z][y]) - x)) == _map.length){
+			if (Math.abs(_map[x][0] - y) + Math.abs(((_map[x][c]) - y)) == _map[0].length){
+				ans = true;
+			}
+		}
+		return ans;
 	}
 
 	@Override
