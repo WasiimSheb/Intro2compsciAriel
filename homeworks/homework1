@@ -7,15 +7,12 @@
 	 * @param z
 	 * @return
 	 */ 
-	public static int mcd1(int x, int y, int z)
-	{
-		int j=0;
-		int d= x*y*z;
-		for (int i=2;i<=d; i++)
-		{
-			if ((i%x==0)&&(i%y==0)&&(i%z==0))
-			{
-				j=i;
+	public static int mcd1(int x, int y, int z) {
+		int j = 0;
+		int d = x*y*z;
+		for ( int i = 2;i <= d; i++){
+			if (( i % x == 0) && ( i % y == 0) && ( i % z == 0)){
+				j = i;
 			 break;
 			}
 		}
@@ -29,22 +26,18 @@
 	 * @param z
 	 * @return
 	 */ 
-	public static long mcd2( long x, long y, long z)
-	{
-		long j= Math.max(x, y);
-		long k= Math.max(z, j);
-		long mcd= k;
-		long m= 0;
-		while (mcd< x*y*z)
-		{
-			if ((mcd%x==0)&&(mcd%y==0)&&(mcd%z==0))
-			{
-				m= mcd;
+	public static long mcd2( long x, long y, long z){
+		long j = Math.max(x, y);
+		long k = Math.max(z, j);
+		long mcd = k;
+		long m = 0;
+		while (mcd < x * y * z) {
+			if ((mcd % x == 0) && (mcd % y == 0) && (mcd % z == 0)) {
+				m = mcd;
 				break;
 			}
-			else
-			{
-				mcd= mcd+k;
+			else {
+				mcd = mcd+k;
 			}
 		}
 		return mcd;
