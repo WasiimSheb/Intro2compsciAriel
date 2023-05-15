@@ -1,7 +1,5 @@
 package exe.ex3;
 
-import java.awt.geom.Point2D;
-
 public class Index2D implements Pixel2D{
 	private int _x, _y;
 	public Index2D() {this(0,0);}
@@ -16,7 +14,14 @@ public class Index2D implements Pixel2D{
 		return _y;
 	}
 	public double distance2D(Pixel2D t) {
-		double ans= this.distance2D(t);
+		double ans;
+		if (t == null )
+		{
+			throw new RuntimeException();
+		}
+		double x = Math.pow(this._x - t.getX(), 2);
+		double y = Math.pow(this._y - t.getY(), 2);
+		ans = Math.sqrt(x + y);
 		return ans;
 	}
 	@Override
