@@ -1,6 +1,7 @@
 package exe.ex3;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.abort;
 
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +34,13 @@ class Index2DTest {
 
 	@Test
 	void testDistance2D() {
-		fail("Not yet implemented");
+		Index2D t = new Index2D(1,0);
+		Index2D o = new Index2D(0,0);
+		double expected = 1;
+		double ans = t.distance2D(o);
+		double ans1 = t.distance2D(t);
+		assertEquals(ans, expected);
+		assertEquals(ans1, 0);
 	}
 
 	@Test
@@ -43,7 +50,21 @@ class Index2DTest {
 
 	@Test
 	void testEqualsObject() {
-		fail("Not yet implemented");
+		Index2D z = new Index2D(0,0);
+		Index2D v = new Index2D(0,0);
+		boolean issame = z.equals(v);{
+			if (!issame) {
+				fail();
+			}
+		}
+		Index2D x = new Index2D(3,3);
+		Index2D y = new Index2D(3,3);
+		assertTrue(x.equals(y));
+		Index2D d = new Index2D(0,5);
+		Index2D e = new Index2D(5,0);
+		boolean issame2 = d.equals(e);
+		if (issame2){
+			assertFalse(issame2);
+		}
 	}
-
 }
