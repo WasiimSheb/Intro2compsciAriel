@@ -121,11 +121,15 @@ public class Map implements Map2D {
 	public boolean isInside(Pixel2D p) {
 		int z = _map.length;
 		int c = _map[0].length;
+		Pixel2D targetX = new Index2D(_map.length, p.getY());
+		Pixel2D startingX = new Index2D(0, p.getY());
+		Pixel2D targetY = new Index2D(p.getX(), _map[0].length);
+		Pixel2D startingY = new Index2D(p.getX(), 0);
 		int x = p.getX();
 		int y = p.getY();
 		boolean ans = false;
-		if (Math.abs(_map[0][y] - x) + Math.abs(((_map[z][y]) - x)) == _map.length){
-			if (Math.abs(_map[x][0] - y) + Math.abs(((_map[x][c]) - y)) == _map[0].length){
+		if (Math.abs(p.distance2D(targetX)) + Math.abs(((p.distance2D(startingX)))) == _map.length){
+			if (Math.abs(p.distance2D(startingY)) + Math.abs(((p.distance2D(targetY)))) == _map[0].length){
 				ans = true;
 			}
 		}
