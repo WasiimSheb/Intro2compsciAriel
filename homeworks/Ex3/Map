@@ -1,12 +1,15 @@
 package exe.ex3;
 
+import java.util.Arrays;
+
 /**
  * This class represents a 2D map as a "screen" or a raster matrix or maze over integers.
  * @author boaz.benmoshe
  *
  */
 public class Map implements Map2D {
-	private int[][] _map;
+	private int[][] _map
+	;
 	private boolean _cyclicFlag = true;
 
 	/**
@@ -31,23 +34,28 @@ public class Map implements Map2D {
 	}
 	@Override
 	public void init(int w, int h, int v) {
-		int [][] ans = new int [h][w];
-		for (int i = 0; i < w; i++){
-			for ( int j = 0; j < h; j++){
-				ans [i][j] = v;
+		_map = new int[h][w];
+		for (int i = 0; i < h; i++) {
+			for (int j = 0; j < w; j++) {
+				_map[i][j] = v;
 			}
 		}
+
 	}
+	//	public static void main(String[] args) {
+	//		//Map x = new Map [3][3];
+	//		
+	//	}
 	@Override
 	public void init(int[][] arr) {
 		if (arr == null){
 			throw new RuntimeException();
 		}
 		else{
-			int [][] ans = new int [arr.length][arr[0].length];
+			_map = new int [arr.length][arr[0].length];
 			for (int i = 0; i < arr.length; i++){
 				for (int j = 0; j < arr[0].length; j++){
-					ans[i][j] = arr[i][j];
+					_map[i][j] = arr[i][j];
 				}
 			}
 		}
@@ -57,8 +65,8 @@ public class Map implements Map2D {
 		int x = _map.length;
 		int y = _map[0].length;
 		int [][] ans = new int [x][y];
-		for (int i = 0; i < ans[0].length; i++) {
-			for (int j = 0; j < ans.length; j++) {
+		for (int i = 0; i < ans.length; i++) {
+			for (int j = 0; j < ans[0].length; j++) {
 				ans [i][j] = _map[i][j];
 			}
 		}
@@ -69,7 +77,13 @@ public class Map implements Map2D {
 	public int getWidth() {return _map.length;}
 	@Override
 	/////// add your code below ///////
-	public int getHeight() {return _map[0].length;}
+	public int getHeight() {if (_map.length == 0) {
+		return 0;
+	}else {
+
+	}
+	return _map[0].length;
+	}
 	@Override
 	/////// add your code below ///////
 	public int getPixel(int x, int y) { 
@@ -120,7 +134,7 @@ public class Map implements Map2D {
 	/////// add your code below ///////
 	public boolean isInside(Pixel2D p) {
 		int z = _map.length;
-		int c = _map[0].length;
+		int c = _map[0].length - 1;
 		Pixel2D targetX = new Index2D(_map.length, p.getY());
 		Pixel2D startingX = new Index2D(0, p.getY());
 		Pixel2D targetY = new Index2D(p.getX(), _map[0].length);
@@ -134,6 +148,13 @@ public class Map implements Map2D {
 			}
 		}
 		return ans;
+	}
+	public static void main(String[] args) {
+		Map map= new Map(5,5,0);
+		Index2D p1= new  Index2D(2,3);
+		System.out.println("Is p2 inside the map? " + map.isInside(p1));
+		Index2D p2= new  Index2D(6,4);
+		System.out.println("Is p2 inside the map? " + map.isInside(p2));
 	}
 
 	@Override
