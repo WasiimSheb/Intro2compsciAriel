@@ -155,7 +155,22 @@ class MapTest {
 
 	@Test
 	void testAllDistance() {
-		fail("Not yet implemented");
+		int [][] exp1 = {
+				{0, 0, 0},
+				{0, 1, 0},
+				{0, 0, 0}
+		};
+		Map res = new Map(exp1);
+		Pixel2D n = new Index2D(1,1);
+		Map2D result = res.allDistance(new Index2D(1,1), 1);
+		int [][] result2 = result.getMap();
+		int [][] expected = {
+				{2, 1, 2},
+				{1, 0, 1},
+				{2, 1, 2}
+		};
+		assertArrayEquals(result2, expected);
+	}
 	}
 
 }
