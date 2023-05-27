@@ -99,6 +99,21 @@ public class Map implements Map2D {
 	public void setPixel(Pixel2D p, int v) {
 		_map[p.getX()][p.getY()] = v;
 	}
+	private int floodfill1(int x ,int y , int oldcol, int newcol) {
+		int count = 1;
+		if (x >= this.getWidth() || x < 0 ||y >= this.getHeight() || y < 0 ) {
+			return 0;
+		}
+		if(getPixel(x, y) != oldcol) {
+			return 0;
+		}
+		setPixel(x, y, newcol);
+		count += floodfill1(x + 1, y, oldcol, newcol);
+		count += floodfill1(x - 1, y, oldcol, newcol);
+		count += floodfill1(x, y + 1, oldcol, newcol);
+		count += floodfill1(x, y - 1, oldcol, newcol);
+		return count;
+	}
 	@Override
 	/** 
 	 * Fills this map with the new color (new_v) starting from p.
@@ -106,9 +121,13 @@ public class Map implements Map2D {
 	 */
 	public int fill(Pixel2D xy, int new_v) {
 		int ans = 0;
-		/////// add your code below ///////
-
-		///////////////////////////////////
+		int x = xy.getX();
+		int y = xy.getY();
+		int originv = getPixel(x,y);
+		if (getPixel(x,y) == new_v) {
+			return ans;
+		}
+		ans = floodfill1(x, y, originv, new_v);
 		return ans;
 	}
 
@@ -145,59 +164,10 @@ public class Map implements Map2D {
 		}
 		return ans; // returning the final boolean value
 	}
-//	public static void main(String[] args) {
-//		Map map= new Map(5,5,0);
-//		Index2D p1= new  Index2D(7,3);
-//		System.out.println("Is p2 inside the map? " + map.isInside(p1));
-//		Index2D p2= new  Index2D(6,4);
-//		System.out.println("Is p2 inside the map? " + map.isInside(p2));
-//	}
-
 	@Override
 	/////// add your code below ///////
 	public boolean isCyclic() {
-		boolean ans1 = false;
-		boolean ans2 = false;
-		boolean ans3 = false;
-		boolean ans4 = false;
-		Pixel2D right = null;
-		Pixel2D left = null;
-		Pixel2D above = null;
-		Pixel2D below = null;
-		for ( int i = 0; i < _map.length; i++){
-			for (int j = 0; j < _map[0].length; j++) {
-				if(getPixel(i, j) == 0 && j == 0){
-					left = new Index2D (i, getWidth() - 1);
-				}
-				if (getPixel(i, j) == 0 && j == getWidth() - 1){
-					right = new Index2D(i, 0);
-				}
-				if (getPixel(i, j) == 0 && i == getHeight() - 1){
-					above = new Index2D(0, j);
-				}
-				if (getPixel(i, j) == 0 && i == 0){
-					below = new Index2D(getHeight() - 1, j);
-				}
-			}
-		}
-		for ( int i = 0; i < _map.length; i++){
-			for (int j = 0; j < _map[0].length; j++) {
-				Pixel2D random = new Index2D(i, j);
-				if (getPixel(i, j) == 0 && j == 0 && random.equals(right)) {
-					ans1 = true;
-				}
-				if (getPixel(i, j) == 0 && j == getWidth() - 1 && random.equals(left)) {
-					ans2 = true;
-				}
-				if (getPixel(i, j) == 0 && i == getHeight() - 1 && random.equals(below)) {
-					ans3 = true;
-				}
-				if (getPixel(i, j) == 0 && i == 0 && random.equals(above)) {
-					ans4 = true;
-				}
-			}
-		}
-		return (ans1 && ans2) || (ans3 && ans4);
+		return _cyclicFlag;
 	}
 	public static void main(String[] args) {
 		int [][] ans1 = {{1,0,3},
@@ -212,18 +182,44 @@ public class Map implements Map2D {
 		this._cyclicFlag = cy;
 	}
 	public Pixel2D[] neighbors(Map2D t, Pixel2D p){
-		Pixel2D [] ans = null;
-		int count =0;
-		Pixel2D e = new Index2D(p.getX(), p.getY());
-		return ans;
+		int numRows = t.getWidth();
+		int numCols = t.getHeight();
+		ArrayList <Pixel2D> neighbors = new ArrayList<Pixel2D>();
+		int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // Up, Down, Left, Right
+		for (int[] direction : directions) {
+			int newX = p.getX() + direction[0];
+			int newY = p.getY() + direction[1];
+			if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols) {
+				Pixel2D neighborPixel = new Index2D(newX, newY); // Create a new Pixel2D object
+				neighbors.add(neighborPixel);
+			}
+		}
+		return neighbors.toArray(new Pixel2D[neighbors.size()]);
+	}
+	public boolean Validpixel(int x, int y, int obsColor) {
+		return  (x >= 0 &&x < _map.length && y >= 0 &&y < _map[0].length && _map[x][y] != obsColor);
 	}
 	@Override
 	/////// add your code below ///////
 	public Map2D allDistance(Pixel2D start, int obsColor) {
-		Map2D ans = null;  // the result.
-		/////// add your code below ///////
-
-		///////////////////////////////////
+		Map2D ans = new Map(_map.length, _map[0].length, -1); // creating a new map and initializing all the values in it to -1, in other words "did not visit yet!".
+		Queue <Pixel2D> exp = new LinkedList(); // creating a queue of Pixel2D
+		exp.add(start); // starting the queue with the starting pixel
+		ans.setPixel(start, 0); // the distance between the the starting pixel and itself is 0 
+		while (!exp.isEmpty()) { 
+			Pixel2D current = exp.poll();
+			int currentdist = ans.getPixel(current);
+			Pixel2D [] neighboring = neighbors(this, current);
+			for (int i = 0; i < neighboring.length; i++) {
+				int neighboringx = neighboring[i].getX();
+				int neighboringy = neighboring[i].getY();
+				if (Validpixel(neighboringx, neighboringy, obsColor) && ans.getPixel(neighboring[i]) == -1) {
+					int newdist = currentdist + 1;
+					ans.setPixel(neighboring[i], newdist);
+					exp.add(neighboring[i]);
+				}
+			}
+		}
 		return ans;
 	}
 }
