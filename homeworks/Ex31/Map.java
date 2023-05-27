@@ -197,7 +197,7 @@ public class Map implements Map2D {
 		return neighbors.toArray(new Pixel2D[neighbors.size()]);
 	}
 	public boolean Validpixel(int x, int y, int obsColor) {
-		return  (x >= 0 &&x < _map.length && y >= 0 &&y < _map[0].length && _map[x][y] != obsColor);
+		return  (x >= 0 &&x < _map.length && y >= 0 &&y < _map[0].length && _map[x][y] != obsColor); // checking whether the pixel is out of boundaries or an obstacle color;
 	}
 	@Override
 	/////// add your code below ///////
@@ -206,21 +206,22 @@ public class Map implements Map2D {
 		Queue <Pixel2D> exp = new LinkedList(); // creating a queue of Pixel2D
 		exp.add(start); // starting the queue with the starting pixel
 		ans.setPixel(start, 0); // the distance between the the starting pixel and itself is 0 
-		while (!exp.isEmpty()) { 
-			Pixel2D current = exp.poll();
-			int currentdist = ans.getPixel(current);
-			Pixel2D [] neighboring = neighbors(this, current);
-			for (int i = 0; i < neighboring.length; i++) {
-				int neighboringx = neighboring[i].getX();
-				int neighboringy = neighboring[i].getY();
+		while (!exp.isEmpty()) { // while there is still nodes to check and not all has been visited
+			Pixel2D current = exp.poll(); // removing the head of the queue
+			int currentdist = ans.getPixel(current); // saving the value of the pixel in an integer
+			Pixel2D [] neighboring = neighbors(this, current); // getting all the neighbors of the current pixel
+			for (int i = 0; i < neighboring.length; i++) { // running over the neighbors
+				int neighboringx = neighboring[i].getX(); // saving the value of X of the first neighbor in the array
+				int neighboringy = neighboring[i].getY(); // saving the value of Y of the first neighbor in the array
+				// checking whether the pixel is valid or not and not yet visited
 				if (Validpixel(neighboringx, neighboringy, obsColor) && ans.getPixel(neighboring[i]) == -1) {
-					int newdist = currentdist + 1;
-					ans.setPixel(neighboring[i], newdist);
-					exp.add(neighboring[i]);
+					int newdist = currentdist + 1;	// updating how far we've got from the starting pixel 
+					ans.setPixel(neighboring[i], newdist); // updating the new distance in the map
+					exp.add(neighboring[i]); // adding a new neighbor for the check;
 				}
 			}
 		}
-		return ans;
+		return ans; // returning the new created map;
 	}
 }
 
