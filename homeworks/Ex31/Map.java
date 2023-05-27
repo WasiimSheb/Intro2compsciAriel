@@ -169,13 +169,6 @@ public class Map implements Map2D {
 	public boolean isCyclic() {
 		return _cyclicFlag;
 	}
-	public static void main(String[] args) {
-		int [][] ans1 = {{1,0,3},
-						 {2,5,1},
-						 {7,0,9}};
-		Map y = new Map(ans1);
-		System.out.println("the map is cycilically " + y.isCyclic());
-	}
 	@Override
 	/////// add your code below ///////
 	public void setCyclic(boolean cy) {
