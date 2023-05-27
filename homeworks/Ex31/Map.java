@@ -99,7 +99,7 @@ public class Map implements Map2D {
 	public void setPixel(Pixel2D p, int v) {
 		_map[p.getX()][p.getY()] = v;
 	}
-	private int floodfill1(int x ,int y , int oldcol, int newcol) {
+	private int floodfill(int x ,int y , int oldcol, int newcol) {
 		int count = 1;
 		if (x >= this.getWidth() || x < 0 ||y >= this.getHeight() || y < 0 ) {
 			return 0;
