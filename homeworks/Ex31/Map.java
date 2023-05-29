@@ -1,6 +1,13 @@
 package exe.ex3;
 
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * This class represents a 2D map as a "screen" or a raster matrix or maze over integers.
@@ -73,14 +80,14 @@ public class Map implements Map2D {
 	@Override
 	/////// add your code below ///////
 	public int getHeight() {
-		if (_map.length == 0) 
+		if (_map.length == 0)
 			return 0;
-		else 
+		else
 			return _map[0].length;
 	}
 	@Override
 	/////// add your code below ///////
-	public int getPixel(int x, int y) { 
+	public int getPixel(int x, int y) {
 		int ans = getMap()[x][y];
 		return (int) ans;
 	}
@@ -99,7 +106,7 @@ public class Map implements Map2D {
 	public void setPixel(Pixel2D p, int v) {
 		_map[p.getX()][p.getY()] = v;
 	}
-	private int floodfill(int x ,int y , int oldcol, int newcol) {
+	private int floodfill1(int x ,int y , int oldcol, int newcol) {
 		int count = 1;
 		if (x >= this.getWidth() || x < 0 ||y >= this.getHeight() || y < 0 ) {
 			return 0;
@@ -115,7 +122,7 @@ public class Map implements Map2D {
 		return count;
 	}
 	@Override
-	/** 
+	/**
 	 * Fills this map with the new color (new_v) starting from p.
 	 * https://en.wikipedia.org/wiki/Flood_fill
 	 */
@@ -131,66 +138,117 @@ public class Map implements Map2D {
 		return ans;
 	}
 
-	@Override
+	public Pixel2D[] neighbors(Map2D t, Pixel2D p){
+		int numRows = t.getWidth();
+		int numCols = t.getHeight();
+		ArrayList <Pixel2D> neighbors = new ArrayList<Pixel2D>();
+		if (p.getX() > 0) {
+			neighbors.add(new Index2D(p.getX() - 1, p.getY()));
+		}
+		if (p.getX() < t.getWidth()) {
+			neighbors.add(new Index2D(p.getX() + 1, p.getY()));
+		}
+		if (p.getY() < t.getHeight()) {
+			neighbors.add(new Index2D(p.getX(), p.getY() + 1));
+		}
+		if(p.getY() > 0) {
+			neighbors.add(new Index2D(p.getX(), p.getY() - 1));
+		}
+		return neighbors.toArray(new Pixel2D[neighbors.size()]);
+	}
 	/**
 	 * BFS like shortest the computation based on iterative raster implementation of BFS, see:
 	 * https://en.wikipedia.org/wiki/Breadth-first_search
 	 */
 	public Pixel2D[] shortestPath(Pixel2D p1, Pixel2D p2, int obsColor) {
-		Pixel2D[] ans = null;  // the result.
-		/////// add your code below ///////
-
-		///////////////////////////////////
-		return ans;
+		ArrayList<Pixel2D> path = new ArrayList<Pixel2D>(); // creating a new arrayList to check the pixels
+		// checking the input if it's valid or not
+		if (!this.isInside(p1) || !this.isInside(p2) || p1 == null || p2 == null || this.getPixel(p1) == obsColor || this.getPixel(p2) == obsColor) {
+			return null;
+		}
+		boolean [][] visited = new boolean[getWidth()][getHeight()]; // new map of the visited and unvisited Pixels
+		Pixel2D [][] check = new Pixel2D[getWidth()][getHeight()]; // new Map of the ShortestPath process
+		this.setPixel(p1, 0); // the distance between the first Pixel and itself is 0
+		path.add(p1); // adding the Pixel to the Checking ArrayList
+		visited[p1.getX()][p1.getY()] = true; // we've visited the first Pixel
+		while (!path.isEmpty()) { // while there is still neighbors to check
+			Pixel2D current = path.remove(0); // popping the head of the Array
+			if (current.equals(p2)) { // if we've reached the target
+				break; // stopping the while loop
+			}
+			Pixel2D[] neighboring = neighbors(this, current); // saving all the neighbors of the Pixel current
+			for (int i = 0; i < neighboring.length; i++) {
+				int newx = neighboring[i].getX(); // saving the X's value
+				int newy = neighboring[i].getY(); // saving the Y's value
+				// checking the neighboring Pixel if it is valid or not
+				if (Validpixel(newx, newy, obsColor) && !visited[newx][newy]) {
+					path.add(neighboring[i]); // adding the legitimate neighbor for a new check of it's neighbors
+					visited[newx][newy] = true; // we've visited the neighboring Pixel
+					check[newx][newy] = current; // saving the current in the neighboring Pixels
+				}
+			}
+		}
+		if (visited[p2.getX()][p2.getY()]) { // if the target is reachable
+			ArrayList <Pixel2D> reversedpath = new ArrayList<>(); // creating a reversed ArrayList
+			Pixel2D current = p2; // updating the current value to be p2 to start from the end
+			while (current != null) { // While we have not reached the p1 target
+				reversedpath.add(current); // adding to the reversed ArrayList
+				current = check[current.getX()][current.getY()]; // updating the current in order to save in the reversed ArrayList
+			}
+			Collections.reverse(reversedpath); // reversing the reversed ArrayList in order to get the path in order
+			return reversedpath.toArray(new Pixel2D[reversedpath.size()]); // turning the ArrayList into an array and returning it
+		}
+		else {
+			return null; // No path found
+		}
+	}
+	public static void main(String[] args) {
+		int [][] path = {
+				{1,2,3},
+				{4,5,6},
+				{7,8,9}
+		};
+		Pixel2D p1 = new Index2D(0,0);
+		Pixel2D p2 = new Index2D(2,0);
+		Map r = new Map(path);
+		Pixel2D [] shortestpath = r.shortestPath(p1, p2, 4);
+		System.out.println(Arrays.toString(shortestpath));
 	}
 	@Override
 	/////// add your code below ///////
 	public boolean isInside(Pixel2D p) {
 		int z = _map.length; // the width of the matrix
 		int c = _map[0].length - 1; // the height of the matrix
-		Pixel2D targetX = new Index2D(_map.length, p.getY()); // creating a new pixel with x, y coordinates 
+		Pixel2D targetX = new Index2D(_map.length, p.getY()); // creating a new pixel with x, y coordinates
 		Pixel2D startingX = new Index2D(0, p.getY()); // creating a new pixel with x, y coordinates
 		Pixel2D targetY = new Index2D(p.getX(), _map[0].length); // creating a new pixel with x, y coordinates
 		Pixel2D startingY = new Index2D(p.getX(), 0); // creating a new pixel with x, y coordinates
 		int x = p.getX(); // getting the value of X coordinate of the pixel that is entered
 		int y = p.getY(); // getting the value of Y coordinate of the pixel that is entered
-		boolean ans = false; // initializing a boolean value to be false 
+		boolean ans = false; // initializing a boolean value to be false
 		// checking whether the distance between x coordinate and the first pilar of the map and the last that is equal to the width of the map
-		if (Math.abs(p.distance2D(targetX)) + Math.abs(((p.distance2D(startingX)))) == _map.length){ 
+		if (Math.abs(p.distance2D(targetX)) + Math.abs(((p.distance2D(startingX)))) == _map.length){
 			// checking whether the distance between x coordinate and the first line of the map and the last that is equal to the width of the map
 			if (Math.abs(p.distance2D(startingY)) + Math.abs(((p.distance2D(targetY)))) == _map[0].length){
-				ans = true; // updating the booolean value to true if the two equivalances have passed 
+				ans = true; // updating the booolean value to true if the two equivalances have passed
 			}
 		}
 		return ans; // returning the final boolean value
 	}
+
 	@Override
 	/////// add your code below ///////
 	public boolean isCyclic() {
 		return _cyclicFlag;
 	}
+
 	@Override
 	/////// add your code below ///////
 	public void setCyclic(boolean cy) {
 		this._cyclicFlag = cy;
 	}
-	public Pixel2D[] neighbors(Map2D t, Pixel2D p){
-		int numRows = t.getWidth();
-		int numCols = t.getHeight();
-		ArrayList <Pixel2D> neighbors = new ArrayList<Pixel2D>();
-		int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // Up, Down, Left, Right
-		for (int[] direction : directions) {
-			int newX = p.getX() + direction[0];
-			int newY = p.getY() + direction[1];
-			if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols) {
-				Pixel2D neighborPixel = new Index2D(newX, newY); // Create a new Pixel2D object
-				neighbors.add(neighborPixel);
-			}
-		}
-		return neighbors.toArray(new Pixel2D[neighbors.size()]);
-	}
 	public boolean Validpixel(int x, int y, int obsColor) {
-		return  (x >= 0 &&x < _map.length && y >= 0 &&y < _map[0].length && _map[x][y] != obsColor); // checking whether the pixel is out of boundaries or an obstacle color;
+		return  (x >= 0 &&x < _map.length && y >= 0 &&y < _map[0].length && _map[x][y] != obsColor);
 	}
 	@Override
 	/////// add your code below ///////
@@ -198,7 +256,7 @@ public class Map implements Map2D {
 		Map2D ans = new Map(_map.length, _map[0].length, -1); // creating a new map and initializing all the values in it to -1, in other words "did not visit yet!".
 		Queue <Pixel2D> exp = new LinkedList(); // creating a queue of Pixel2D
 		exp.add(start); // starting the queue with the starting pixel
-		ans.setPixel(start, 0); // the distance between the the starting pixel and itself is 0 
+		ans.setPixel(start, 0); // the distance between the starting pixel and itself is 0
 		while (!exp.isEmpty()) { // while there is still nodes to check and not all has been visited
 			Pixel2D current = exp.poll(); // removing the head of the queue
 			int currentdist = ans.getPixel(current); // saving the value of the pixel in an integer
@@ -208,7 +266,7 @@ public class Map implements Map2D {
 				int neighboringy = neighboring[i].getY(); // saving the value of Y of the first neighbor in the array
 				// checking whether the pixel is valid or not and not yet visited
 				if (Validpixel(neighboringx, neighboringy, obsColor) && ans.getPixel(neighboring[i]) == -1) {
-					int newdist = currentdist + 1;	// updating how far we've got from the starting pixel 
+					int newdist = currentdist + 1;	// updating how far we've got from the starting pixel
 					ans.setPixel(neighboring[i], newdist); // updating the new distance in the map
 					exp.add(neighboring[i]); // adding a new neighbor for the check;
 				}
@@ -216,5 +274,17 @@ public class Map implements Map2D {
 		}
 		return ans; // returning the new created map;
 	}
+	//	public static void main(String[] args) {
+	//		int[][] ans = {
+	//				{0, 0, 0},
+	//				{0, 1, 0},
+	//				{0, 0, 0}
+	//		};
+	//		Map t = new Map(ans);
+	//		Map2D r = t.allDistance(new Index2D(1, 1), 1);
+	//		int[][] result = r.getMap();
+	//		System.out.println(Arrays.deepToString(ans));
+	//		System.out.println(Arrays.deepToString(result));
+	//	}
 }
 
