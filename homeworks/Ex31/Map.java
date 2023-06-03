@@ -268,50 +268,50 @@ public class Map implements Map2D {
 	 * @return
 	 */
 	protected Pixel2D eatpink(Pixel2D current, int [] pg , int obsColor) {
-		Queue<Pixel2D> pro = new LinkedList<>(); // creating a  new queue for checking
+		Queue<Pixel2D> pro = new LinkedList<>(); // creating a  new queue for current2
 		boolean[][] visited = new boolean[getWidth()][getHeight()]; // creating a new 2D array to handle the visited and unvisited Pixels
-		pro.add(current); // adding the current position of checking
+		pro.add(current); // adding the current position of current2
 		int width = this.getWidth(); // the width of the map
 		int height = this.getHeight(); // the height of the map
 		while (!pro.isEmpty()) { // while there are still pixels we have not visited
-			Pixel2D temp = pro.remove(); // processing the head of the queue
-			if (visited[temp.getX()][temp.getY()]){ // checking whether the pixel have been visited or not
+			Pixel2D current2 = pro.remove(); // processing the head of the queue
+			if (visited[current2.getX()][current2.getY()]){ // current2 whether the pixel have been visited or not
 				continue; // moving to the next iteration if it has been already visited
 			}
 			visited[current.getX()][current.getY()] = true; // the current position has been visited
 			// creating a left pixel of the current one using the arithmetic modular map to handle the cyclic mode
-			int x_l = (temp.getX() - 1 + width) % width;
-			int y_l = (temp.getY() + height) % height;
+			int x_l = (current2.getX() - 1 + width) % width;
+			int y_l = (current2.getY() + height) % height;
 			Pixel2D left = new Index2D(x_l, y_l);
 			// creating a right pixel of the current one using the arithmetic modular map to handle the cyclic mode
-			int x_r = (temp.getX() + 1 + width) % width;
-			int y_r = (temp.getY() + height) % height;
+			int x_r = (current2.getX() + 1 + width) % width;
+			int y_r = (current2.getY() + height) % height;
 			Pixel2D right = new Index2D(x_r, y_r);
 			// creating a lower pixel of the current one using the arithmetic modular map to handle the cyclic mode
-			int x_d = (temp.getX() + width) % width;
-			int y_d = (temp.getY() - 1 + height) % height;
+			int x_d = (current2.getX() + width) % width;
+			int y_d = (current2.getY() - 1 + height) % height;
 			Pixel2D down = new Index2D(x_d, y_d);
 			// creating an upper pixel of the current one using the arithmetic modular map to handle the cyclic mode
-			int x_u = (temp.getX() + width) % width;
-			int y_u = (temp.getY() + 1 + height) % height;
+			int x_u = (current2.getX() + width) % width;
+			int y_u = (current2.getY() + 1 + height) % height;
 			Pixel2D up = new Index2D(x_u, y_u);
-			// checking whether the right pixel is valid, not an obstacle, is and eatable pixel.
+			// current2 whether the right pixel is valid, not an obstacle, is and eatable pixel.
 			if ((this.isCyclic() || isInside(right)) && getPixel(right) != obsColor  && (getPixel(right) == pg[0] || getPixel(right) == pg[1])) {
 				return right; // if so go right;
 			}
-			// checking whether the left pixel is valid, not an obstacle, is and eatable pixel.
+			// current2 whether the left pixel is valid, not an obstacle, is and eatable pixel.
 			if ((this.isCyclic() || isInside(left)) && getPixel(left) != obsColor  && (getPixel(left) == pg[0] || getPixel(left) == pg[1])) {
 				return left; // if so go left
 			}
-			// checking whether the upper pixel is valid, not an obstacle, is and eatable pixel.
+			// current2 whether the upper pixel is valid, not an obstacle, is and eatable pixel.
 			if ((this.isCyclic() || isInside(up)) && getPixel(up) != obsColor && (getPixel(up) == pg[0] || getPixel(up) == pg[1])) {
 				return up; // if so go up
 			}
-			// checking whether the lower pixel is valid, not an obstacle, is and eatable pixel.
+			// current2 whether the lower pixel is valid, not an obstacle, is and eatable pixel.
 			if ((this.isCyclic() || isInside(down)) && getPixel(down) != obsColor && (getPixel(down) == pg[0] || getPixel(down) == pg[1])) {
 				return down; // if so go down
 			}
-			// checking whether the neighboring pixels are obstacles or not and adding them for a futher check
+			// current2 whether the neighboring pixels are obstacles or not and adding them for a futher check
 			if (getPixel(right) != obsColor)
 				pro.add(right);
 			if (getPixel(left) != obsColor)
