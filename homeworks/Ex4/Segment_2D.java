@@ -22,6 +22,12 @@ public class Segment_2D implements GeoShape{
 		this._p1 = p1;
 		this._p2 = p2;
 	}
+	public Point_2D[] getAllPoints(){
+		Point_2D [] ans = new Point_2D[2];
+		ans[0] = _p1;
+		ans[1] = _p2;
+		return ans;
+	}
 
 	public Point_2D get_p1() {
 		return this._p1;
@@ -58,27 +64,35 @@ public class Segment_2D implements GeoShape{
 
 	@Override
 	public void translate(Point_2D vec) {
-	this._p1.move(vec);
-	this._p2.move(vec);
+	_p1.move(vec);
+	_p2.move(vec);
 	}
 
 	@Override
 	public GeoShape copy() {
-		GeoShape s = new Segment_2D(this._p1, this._p2);
-		return s;
+		return new Segment_2D(this._p1, this._p2);
 	}
 
 	@Override
 	public void scale(Point_2D center, double ratio) {
-		GeoShape s = new Segment_2D(this._p1, this._p2);
-		s.scale(center, ratio);
+		_p1.scale(center, ratio);
+		_p2.scale(center, ratio);
 	}
 
 	@Override
 	public void rotate(Point_2D center, double angleDegrees) {
-		GeoShape s = new Segment_2D(this._p1, this._p2);
-		s.scale(center, angleDegrees);
+		_p1.rotate(center, angleDegrees);
+		_p2.rotate(center, angleDegrees);
 	}
+
+	@Override
+	public String toString() {
+		return "Segment_2D{" +
+				"_p1=" + _p1 +
+				", _p2=" + _p2 +
+				'}';
+	}
+
 	public static void main(String[] args) {
 		Point_2D r1 = new Point_2D(1,1);
 		Point_2D r2 = new Point_2D(3,1);
