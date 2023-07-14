@@ -1,2 +1,2 @@
-# Intro2compsciAriel
+# I2CSAriel
 This repository is made for the homeworks in AU.
